@@ -1,1 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byte Code IDE</title>
+  <link rel="icon" href="/assets/icon.png" >
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            width: 100%;
+            background-color: #1c1c1c;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #00ffcc;
+        }
+
+        .pbyte{
+            font-size: 1.1em;
+            cursor: pointer;
+            color: #00ffcc;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .pbyte:hover {
+            text-decoration: underline;
+        }
+
+        .editor-container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 1200px;
+            height: 400px;
+            background-color: #2a2a2e;
+            color: #f8f8f2;
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1em;
+            resize: none;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        button {
+            background-color: #00ffcc;
+            color: #121212;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #00e6b8;
+        }
+
+        #output {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #2b2d42;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            display: none;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            background-color: #fff;
+        }
+
+        #divlinksels {
+            display: none;
+            background-color: #2a2a2e;
+            color: #00ffcc;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #00ffcc;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        #divlinksels p {
+            margin: 10px 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            textarea {
+                height: 300px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+        
+        a{
+          text-decoration: none;
+          color:#fff;
+
+        }
+    </style>
+</head>
+<body>
+<header>
+      
+<h1>Byte Code IDE</h1>
+<p id="liblinks" class="pbyte">LIBLINKS</p>
+<p id="savecode" class="pbyte"> salvar código</p>
+
+</header>
+    
+<main class="editor-container">
+<div id="divlinksels">
+  
+ <h2>Lib Links</h2>
+  
+            
+<p><strong>jQuery:</strong> <a href="https://code.jquery.com/jquery-3.6.0.min.js" target="_blank">https://code.jquery.com/jquery-3.6.0.min.js</a></p>
+<p><strong>React:</strong> <a href="https://unpkg.com/react@17/umd/react.production.min.js" target="_blank">https://unpkg.com/react@17/umd/react.production.min.js</a></p>
+
+<p><strong>Vue.js:</strong> <a href="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" target="_blank">https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js</a></p>
+</div>
+
+<textarea id="code">
+          
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <h1> by byte ide</h1>
+</body>
+
+</html>  
+</textarea>
+ <button id="run">Run</button>
+  <div id="output">
+<iframe id="outputFrame"></iframe>
+
+</div>
+</main>
+
+<script>
+document.getElementById('liblinks').addEventListener('click', function() {
+const divLinks = document.getElementById('divlinksels');
+divLinks.style.display = divLinks.style.display === 'none' || divLinks.style.display === '' ? 'block' : 'none';
+});
+
+document.getElementById('run').addEventListener('click', function() {
+const code = document.getElementById('code').value;
+const outputDiv = document.getElementById('output');
+const outputFrame = document.getElementById('outputFrame');
+  try {
+ outputDiv.style.display = 'block';
+ outputFrame.srcdoc = code;
+}
+catch (error) {
+ console.error('Erro:', error);
+
+  
+}
+  
+});
+function saveCode() {
+    const code = document.getElementById('code').value;
+    localStorage.setItem('savedCode', code);
+}
+
+window.onload = function() {
+    const savedCode = localStorage.getItem('savedCode');
+    if (savedCode) {
+        document.getElementById('code').value = savedCode;
+    }
+};
+
+document.getElementById('savecode').addEventListener('click', saveCode);
+
+    </script>
+</body>
+  </html>
+  
