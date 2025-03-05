@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Byte Code IDE</title>
-  <link rel="icon" href="/assets/icon.png" >
+    <link rel="icon" href="/assets/icon.png">
     <style>
         * {
             margin: 0;
@@ -38,7 +38,7 @@
             color: #00ffcc;
         }
 
-        .pbyte{
+        .pbyte {
             font-size: 1.1em;
             cursor: pointer;
             color: #00ffcc;
@@ -60,17 +60,13 @@
             align-items: center;
         }
 
-        textarea {
+        #editor {
             width: 100%;
             max-width: 1200px;
             height: 400px;
             background-color: #2a2a2e;
-            color: #f8f8f2;
             border: 1px solid #00ffcc;
             border-radius: 10px;
-            padding: 15px;
-            font-size: 1.1em;
-            resize: none;
             box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
         }
 
@@ -128,8 +124,8 @@
         }
 
         @media screen and (max-width: 768px) {
-            textarea {
-                height: 300px;
+            #editor {
+                height:  700px;
             }
 
             button {
@@ -137,95 +133,42 @@
                 font-size: 1em;
             }
         }
-        
-        a{
-          text-decoration: none;
-          color:#fff;
 
+        a {
+            text-decoration: none;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-<header>
-      
-<h1>Byte Code IDE</h1>
+    <header>
+ <h1>Byte Code IDE</h1>
 <p id="liblinks" class="pbyte">LIBLINKS</p>
-<p id="savecode" class="pbyte"> salvar código</p>
 
+<p id="savecode" class="pbyte">Salvar Código</p>
 </header>
     
 <main class="editor-container">
 <div id="divlinksels">
   
  <h2>Lib Links</h2>
-  
-            
 <p><strong>jQuery:</strong> <a href="https://code.jquery.com/jquery-3.6.0.min.js" target="_blank">https://code.jquery.com/jquery-3.6.0.min.js</a></p>
 <p><strong>React:</strong> <a href="https://unpkg.com/react@17/umd/react.production.min.js" target="_blank">https://unpkg.com/react@17/umd/react.production.min.js</a></p>
-
 <p><strong>Vue.js:</strong> <a href="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" target="_blank">https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js</a></p>
+
 </div>
 
-<textarea id="code">
-          
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
-
-<body>
-  <h1> by byte ide</h1>
-</body>
-
-</html>  
-</textarea>
+ 
+ <div id="editor"></div>
  <button id="run">Run</button>
-  <div id="output">
-<iframe id="outputFrame"></iframe>
-
-</div>
+ <div id="output">
+          
+ <iframe id="outputFrame"></iframe>
+ </div>
 </main>
 
-<script>
-document.getElementById('liblinks').addEventListener('click', function() {
-const divLinks = document.getElementById('divlinksels');
-divLinks.style.display = divLinks.style.display === 'none' || divLinks.style.display === '' ? 'block' : 'none';
-});
-
-document.getElementById('run').addEventListener('click', function() {
-const code = document.getElementById('code').value;
-const outputDiv = document.getElementById('output');
-const outputFrame = document.getElementById('outputFrame');
-  try {
- outputDiv.style.display = 'block';
- outputFrame.srcdoc = code;
-}
-catch (error) {
- console.error('Erro:', error);
-
-  
-}
-  
-});
-function saveCode() {
-    const code = document.getElementById('code').value;
-    localStorage.setItem('savedCode', code);
-}
-
-window.onload = function() {
-    const savedCode = localStorage.getItem('savedCode');
-    if (savedCode) {
-        document.getElementById('code').value = savedCode;
-    }
-};
-
-document.getElementById('savecode').addEventListener('click', saveCode);
-
-    </script>
+<script src="https://unpkg.com/monaco-editor@0.33.0/min/vs/loader.js"></script>
+<script src="./src/editor.js"></script>
+<script src="/src/run.js"></script>
 </body>
-  </html>
-  
+    </html>
